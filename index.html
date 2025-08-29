@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CliTrackCV - Seguimiento de Clientes y Notas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 80px 0;
+            color: white;
+        }
+
+        .app-title {
+            font-size: 4.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            background: linear-gradient(45deg, #ffffff, #f8f9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .app-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 60px;
+            opacity: 0.95;
+            font-weight: 300;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .dev-info {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(15px);
+            padding: 50px;
+            border-radius: 25px;
+            margin: 40px auto;
+            max-width: 900px;
+            border: 2px solid rgba(255,255,255,0.25);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.1);
+        }
+
+        .dev-info h3 {
+            color: #ffffff;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .dev-info p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            opacity: 0.95;
+            line-height: 1.8;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin: 35px 0;
+        }
+
+        .tech-item {
+            background: rgba(255,255,255,0.25);
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .tech-item:hover {
+            transform: translateY(-8px);
+            background: rgba(255,255,255,0.35);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .developer-signature {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 20px;
+            text-shadow: none;
+        }
+
+        .interfaces-section {
+            background: white;
+            margin: 60px 0;
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            color: #4a5568;
+            font-weight: 700;
+        }
+
+        .interface-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .interface-card {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interface-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .interface-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .interface-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .interface-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+
+        .interface-card p {
+            color: #4a5568;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-top: 20px;
+            padding: 0;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #4a5568;
+        }
+
+        .features-list li:not(.empty)::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .features-list li.empty {
+            height: 20px;
+            padding: 0;
+        }
+
+        .phone-mockup {
+            width: 200px;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 25px;
+            margin: 20px auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .phone-screen {
+            width: 180px;
+            height: 360px;
+            background: white;
+            border-radius: 20px;
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            overflow: hidden;
+            padding-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px 0;
+            color: white;
+            margin-top: 80px;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .app-title {
+                font-size: 3rem;
+            }
+
+            .dev-info {
+                padding: 30px;
+                max-width: 95%;
+            }
+
+            .interface-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-stack {
+                gap: 15px;
+            }
+
+            .tech-item {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            header {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="app-title">CliTrackCV</h1>
+            <p class="app-subtitle">Chats autónomos para almacenar fotos de documentos por cliente</p>
+
+            <div class="dev-info fade-in">
+                <h3>Información de Desarrollo</h3>
+                <p>Esta aplicación fue desarrollada con <strong>Android Studio</strong> como entorno de desarrollo, utilizando <strong>Java</strong> como lenguaje de programación principal. Diseñada para crear chats individuales donde almacenar fotos de documentos organizados por cliente.</p>
+
+                <div class="tech-stack">
+                    <div class="tech-item">Android Studio</div>
+                    <div class="tech-item">Java</div>
+                    <div class="tech-item">Android SDK</div>
+                </div>
+
+                <p class="developer-signature">Desarrollado por Carlos Vega</p>
+            </div>
+        </header>
+
+        <section class="interfaces-section">
+            <h2 class="section-title">Interfaces de la Aplicación</h2>
+
+            <div class="interface-grid">
+                <!-- Lista de clientes -->
+                <div class="interface-card fade-in">
+                    <div class="interface-number">1</div>
+                    <h3>Lista de Clientes</h3>
+                    <p>La interfaz principal presenta una lista completa y organizada de todos los clientes registrados en el sistema. Cada cliente se muestra con su información básica y estado de comunicación.</p>
+
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div style="padding: 20px; background: #667eea; color: white; text-align: center; font-weight: bold;">
+                                CliTrackCV
+                            </div>
+                            <div style="padding: 25px 15px 15px 15px; font-size: 12px;">
+                                <div style="margin: 10px 0; padding: 10px; background: #f0f0f0; border-radius: 10px;">
+                                    <strong>Cliente 1</strong><br>
+                                    <span style="color: #999;">Sin mensajes</span>
+                                </div>
+                                <div style="margin: 10px 0; padding: 10px; background: #f0f0f0; border-radius: 10px;">
+                                    <strong>Jorge</strong><br>
+                                    <span style="color: #999;">Sin mensajes</span>
+                                </div>
+                                <div style="margin: 10px 0; padding: 10px; background: #f0f0f0; border-radius: 10px;">
+                                    <strong>Carlos</strong><br>
+                                    <span style="color: #999;">Sin mensajes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="features-list">
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li>Visualización de todos los clientes registrados</li>
+                        <li>Acceso directo al chat de cada cliente</li>
+                        <li>Interfaz intuitiva con avatares personalizados</li>
+                        <li>Estados que muestran si hay documentos almacenados</li>
+                        <li>Búsqueda rápida de clientes</li>
+                        <li>Botón flotante para agregar nuevos clientes</li>
+                    </ul>
+                </div>
+
+                <!-- Registro de nuevos clientes -->
+                <div class="interface-card fade-in">
+                    <div class="interface-number">2</div>
+                    <h3>Registro de Nuevos Clientes</h3>
+                    <p>Interfaz simple y eficiente para el registro de nuevos clientes. Permite capturar la información esencial de manera rápida y organizada para mantener la base de datos actualizada.</p>
+
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div style="padding: 60px 20px 20px; text-align: center;">
+                                <div style="border: 2px dashed #ccc; padding: 15px; border-radius: 8px; margin-bottom: 30px;">
+                                    <span style="color: #999;">Nombre del cliente</span>
+                                </div>
+                                <div style="background: #333; color: #FFD700; padding: 15px; border-radius: 25px; font-weight: bold;">
+                                    Guardar
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="features-list">
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li>Formulario limpio y minimalista</li>
+                        <li>Validación de datos en tiempo real</li>
+                        <li>Guardado rápido con un solo clic</li>
+                        <li>Interfaz responsive y fácil de usar</li>
+                        <li>Integración directa con la lista principal</li>
+                    </ul>
+                </div>
+
+                <!-- Chat de documentos -->
+                <div class="interface-card fade-in">
+                    <div class="interface-number">3</div>
+                    <h3>Chat de Documentos por Cliente</h3>
+                    <p>Cada cliente tiene su propio chat donde puedes almacenar fotos de facturas, listas de precios, documentos pendientes y cualquier archivo importante.</p>
+
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div style="padding: 25px 15px; font-size: 10px;">
+                                <div style="text-align: center; margin-bottom: 10px; background: #667eea; color: white; padding: 8px; border-radius: 8px;">
+                                    <strong>Ricardo Soto</strong>
+                                </div>
+
+                                <div style="background: #f0f0f0; margin: 5px 0; padding: 8px; border-radius: 8px; max-width: 80%; margin-left: auto;">
+                                    <div style="background: white; padding: 6px; border-radius: 4px; text-align: center; font-size: 8px;">
+                                        📄 <strong>FACTURA</strong><br>
+                                        <small>Factura n°: 01234</small><br>
+                                        <small>Total: $2300</small>
+                                    </div>
+                                    <small style="color: #999; font-size: 7px;">21:06</small>
+                                </div>
+
+                                <div style="background: #e3f2fd; margin: 5px 0; padding: 6px; border-radius: 8px; max-width: 70%; margin-right: auto;">
+                                    <small style="color: #666; font-size: 8px;">📋 Precios de la factura</small>
+                                    <small style="color: #999; font-size: 7px; display: block;">21:06</small>
+                                </div>
+
+                                <div style="position: absolute; bottom: 10px; left: 10px; right: 10px; background: white; border: 1px solid #ddd; border-radius: 20px; padding: 5px 10px; font-size: 8px; color: #999;">
+                                    Escribe un mensaje... 📷 📁 ➤
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="features-list">
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li class="empty"></li>
+                        <li>Chat individual para cada cliente</li>
+                        <li>Almacenamiento de fotos de facturas y documentos</li>
+                        <li>Organización cronológica de archivos</li>
+                        <li>Acceso rápido a información guardada</li>
+                        <li>Interfaz de chat familiar e intuitiva</li>
+                        <li>Revisión posterior de documentos pendientes</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 CliTrackCV - Desarrollado por <span class="developer-signature">Carlos Vega</span></p>
+            <p>Aplicación móvil para Android - Chats organizados por cliente para almacenar documentos</p>
+        </div>
+    </footer>
+
+    <script>
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        document.querySelectorAll('.interface-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        window.addEventListener('load', function() {
+            const title = document.querySelector('.app-title');
+            title.style.transform = 'scale(0.8)';
+            title.style.opacity = '0';
+            setTimeout(() => {
+                title.style.transition = 'all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                title.style.transform = 'scale(1)';
+                title.style.opacity = '1';
+            }, 500);
+        });
+
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.phone-mockup');
+            parallaxElements.forEach(element => {
+                const speed = 0.1;
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
